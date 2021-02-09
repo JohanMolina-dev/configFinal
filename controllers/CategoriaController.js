@@ -4,7 +4,7 @@ exports.list = async (req, res, next) => {
   try {
     const register = await models.Categoria.findAll({
       where:{
-        estado: 1.
+        
       }
     }
 

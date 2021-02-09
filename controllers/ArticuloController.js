@@ -8,8 +8,61 @@ exports.list = async (req, res, next) => {
                 model: models.Categoria,
                 as: 'categoria',
                 //attributes:["id", "nombre", "descripcion"]
-            }
+            },
+            
+            
         ]
+    });
+    if (register) {
+      res.status(200).json(register);
+    } else {
+      res.status(404).send({
+        message: "No hay Articulos registrados",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Error",
+    });
+    next(error);
+  }
+};
+exports.listBta = async (req, res, next) => {
+  try {
+    const register = await models.Articulo.findAll({
+        where: { estado : 1}
+            
+            
+      
+    });
+    if (register) {
+      res.status(200).json(register);
+    } else {
+      res.status(404).send({
+        message: "No hay Articulos registrados",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Error",
+    });
+    next(error);
+  }
+};
+exports.listTena = async (req, res, next) => {
+  try {
+    const register = await models.Articulo.findAll({
+        where:{ estado : 0},
+        include:[
+          {
+              model: models.Categoria,
+              as: 'categoria',
+              //attributes:["id", "nombre", "descripcion"]
+          },
+        ]
+            
+            
+      
     });
     if (register) {
       res.status(200).json(register);
@@ -46,6 +99,7 @@ exports.update = async (req, res, next) => {
         codigo: req.body.codigo,
         descripcion: req.body.descripcion,
         categoriaID: req.body.categoriaID,
+       
       },
       {
         where: { id: req.body.id },
